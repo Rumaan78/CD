@@ -1,0 +1,19 @@
+#include <stdio.h>
+#include <string.h>
+int main() {
+    char op[3];
+    printf("Enter any operator: ");
+    scanf("%s", op);
+    if(strcmp(op,"+")==0) printf("Addition\n");
+    else if(strcmp(op,"-")==0) printf("Subtraction\n");
+    else if(strcmp(op,"*")==0) printf("Multiplication\n");
+    else if(strcmp(op,"/")==0) printf("Division\n");
+    else if(strcmp(op,"<")==0) printf("Less than\n");
+    else if(strcmp(op,"<=")==0) printf("Less than or equal\n");
+    else if(strcmp(op,">")==0) printf("Greater than\n");
+    else if(strcmp(op,">=")==0) printf("Greater than or equal\n");
+    else if(strcmp(op,"==")==0) printf("Equal to\n");
+    else if(strcmp(op,"!=")==0) printf("Not equal to\n");
+    else printf("Not a valid operator\n");
+    return 0;
+}

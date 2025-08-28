@@ -1,0 +1,33 @@
+#include <stdio.h>
+#include <string.h>
+char prod[10][20]; 
+int n;
+void findFIRST(char c) {
+    printf("\nFIRST(%c)= { ", c);
+    for(int i=0; i<n; i++) {
+        if(prod[i][0] == c) {
+            for(int j=2; prod[i][j]!='\0'; j++) {
+                if(prod[i][j]=='$' || (prod[i][j]>='a' && prod[i][j]<='z'))
+                    printf("%c ", prod[i][j]);
+            }
+        }
+    }
+    printf("}\n");
+}
+int main() {
+    char ch, cont='y';
+    printf("How many number of productions ? :");
+    scanf("%d",&n);
+    for(int i=0;i<n;i++){
+        printf("Enter productions Number %d :",i+1);
+        scanf(" %[^\n]", prod[i]);  
+    }
+    while(cont=='y'){
+        printf("\nFind the FIRST of  :");
+        scanf(" %c",&ch);
+        findFIRST(ch);
+        printf("press 'y' to continue : ");
+        scanf(" %c",&cont);
+    }
+    return 0;
+}

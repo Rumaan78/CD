@@ -1,0 +1,44 @@
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+char prods[10][20];
+int n;
+void follow(char symbol) {
+    int i, j;
+    printf("Follow Value of %c: { ", symbol);
+    if(symbol == 'S') {
+        printf("$ ");
+    }
+    for(i=0; i<n; i++) {
+        for(j=0; prods[i][j]!='\0'; j++) {
+            if(prods[i][j]==symbol) {
+                if(prods[i][j+1] != '\0' && islower(prods[i][j+1])) {
+                    printf("%c ", prods[i][j+1]);   
+                }
+                else if(prods[i][j+1] != '\0' && isupper(prods[i][j+1])) {
+                    if(prods[i][j+2] != '\0' && islower(prods[i][j+2]))
+                        printf("%c ", prods[i][j+2]);
+                }
+            }
+        }
+    }
+    printf("}\n");
+}
+int main() {
+    int i;
+    char ch, sym;
+    printf("Enter Total Number of Productions: ");
+    scanf("%d",&n);
+    for(i=0;i<n;i++) {
+        printf("Value of Production Number [%d]: ",i+1);
+        scanf("%s",prods[i]);  
+    }
+    do {
+        printf("\nEnter production Value to Find Follow: ");
+        scanf(" %c",&sym);
+        follow(sym);
+        printf("To Continue, Press Y: ");
+        scanf(" %c",&ch);
+    }while(ch=='y' || ch=='Y');
+    return 0;
+}

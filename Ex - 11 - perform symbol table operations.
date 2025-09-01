@@ -1,0 +1,92 @@
+#include <stdio.h>
+#include <string.h>
+
+struct Symbol {
+    char label[20];
+    int addr;
+} table[50];
+
+int n = 0;
+
+void insert() {
+    char lab[20];
+    int addr, i;
+
+    printf("Enter label: ");
+    scanf("%s", lab);
+
+    // check duplicate
+    for(i=0;i<n;i++) {
+        if(strcmp(table[i].label, lab)==0) {
+            printf("Duplicate symbol!\n");
+            return;
+        }
+    }
+
+    printf("Enter address: ");
+    scanf("%d", &addr);
+
+    strcpy(table[n].label, lab);
+    table[n].addr = addr;
+    n++;
+}
+
+void display() {
+    int i;
+    printf("\nSymbol Table:\n");
+    printf("Label\tAddress\n");
+    for(i=0;i<n;i++)
+        printf("%s\t%d\n", table[i].label, table[i].addr);
+}
+
+void search() {
+    char lab[20];
+    int i, found=0;
+
+    printf("Enter label to search: ");
+    scanf("%s", lab);
+
+    for(i=0;i<n;i++) {
+        if(strcmp(table[i].label, lab)==0) {
+            printf("Found: %s %d\n", table[i].label, table[i].addr);
+            found=1;
+            break;
+        }
+    }
+    if(!found) printf("Label not found\n");
+}
+
+void modify() {
+    char lab[20];
+    int i, newAddr, found=0;
+
+    printf("Enter label to modify: ");
+    scanf("%s", lab);
+
+    for(i=0;i<n;i++) {
+        if(strcmp(table[i].label, lab)==0) {
+            printf("Enter new address: ");
+            scanf("%d", &newAddr);
+            table[i].addr = newAddr;
+            printf("Modified successfully!\n");
+            found=1;
+            break;
+        }
+    }
+    if(!found) printf("Label not found\n");
+}
+
+int main() {
+    int ch;
+    do {
+        printf("\n1.Insert 2.Display 3.Search 4.Modify 5.Exit\n");
+        scanf("%d",&ch);
+        switch(ch) {
+            case 1: insert(); break;
+            case 2: display(); break;
+            case 3: search(); break;
+            case 4: modify(); break;
+            case 5: return 0;
+        }
+    } while(1);
+}

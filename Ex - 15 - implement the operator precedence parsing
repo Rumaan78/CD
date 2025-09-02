@@ -1,0 +1,77 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+char stack[50], input[50];
+int top = 0, i = 0;
+
+char handles[][5] = {")E(", "E*E", "E+E", "i"};  
+// Grammar: E -> E+E | E*E | (E) | i
+
+// Function to check if substring is reducible
+int checkHandle() {
+    for (int h = 0; h < 4; h++) {
+        int len = strlen(handles[h]);
+        if (top >= len) {
+            if (!strncmp(stack + top - len, handles[h], len)) {
+                stack[top - len] = 'E';
+                stack[top - len + 1] = '\0';
+                top = strlen(stack);
+                return h;
+            }
+        }
+    }
+    return -1;
+}
+
+// Function to print stack, input, and action
+void printStep(char *action) {
+    printf("%-10s %-12s %s\n", stack, input + i, action);
+}
+
+int main() {
+    printf("Enter the string: ");
+    scanf("%s", input);
+
+    strcat(input, "$"); // End marker
+    strcpy(stack, "$");
+
+    printf("\nSTACK      INPUT        ACTION\n");
+
+    while (1) {
+        // Shift
+        stack[++top] = input[i];
+        stack[top + 1] = '\0';
+        printStep("Shift");
+        i++;
+
+        // Keep reducing if possible
+        int h;
+        do {
+            h = checkHandle();
+            if (h >= 0) {
+                char action[30];
+                if (strcmp(handles[h], "i") == 0)
+                    sprintf(action, "Reduced: E->i");
+                else if (strcmp(handles[h], "E+E") == 0)
+                    sprintf(action, "Reduced: E->E+E");
+                else if (strcmp(handles[h], "E*E") == 0)
+                    sprintf(action, "Reduced: E->E*E");
+                else if (strcmp(handles[h], ")E(") == 0)
+                    sprintf(action, "Reduced: E->(E)");
+                printStep(action);
+            }
+        } while (h >= 0);
+
+        // If only "$E$" remains, accept
+        if (!strcmp(stack, "$E$") && input[i] == '\0') {
+            printStep("Accepted");
+            break;
+        }
+
+        // If input consumed but not accepted
+        if (input[i] == '\0')
+            break;
+    }
+    return 0;
+}

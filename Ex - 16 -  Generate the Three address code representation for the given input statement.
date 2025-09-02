@@ -1,0 +1,31 @@
+#include <stdio.h>
+#include <string.h>
+int main() {
+    char input[100], lhs[20], rhs[80];
+    char *token;
+    char temp[20];
+    int t = 1;
+    printf("Enter the statement:\n");
+    fgets(input, sizeof(input), stdin); 
+    input[strcspn(input, "\n")] = '\0';  
+    sscanf(input, "%s = %[^\n]", lhs, rhs);
+    token = strtok(rhs, " ");
+    char prev[20];
+    strcpy(prev, token);
+    while ((token = strtok(NULL, " ")) != NULL) {
+        char op[5];
+        char next[20];
+
+        if (strcmp(token, "+") == 0 || strcmp(token, "-") == 0 ||
+            strcmp(token, "*") == 0 || strcmp(token, "/") == 0) {
+            strcpy(op, token);
+            token = strtok(NULL, " ");
+            strcpy(next, token); 
+            sprintf(temp, "t%d", t++);
+            printf("%s=%s%s%s\n", temp, prev, op, next);
+            strcpy(prev, temp);  
+        }
+    }
+    printf("%s=%s\n", lhs, prev);
+    return 0;
+}

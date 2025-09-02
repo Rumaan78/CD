@@ -1,0 +1,46 @@
+#include <stdio.h>
+#include <string.h>
+
+int main() {
+    int n, i;
+    char op1, op2, res, eq, op;
+    char str[20];
+
+    printf("enter the no: intermediate code:");
+    scanf("%d", &n);
+
+    for(i = 1; i <= n; i++) {
+        printf("enter the 3 address code:%d:", i);
+        scanf("%s", str);
+
+        // Format expected: x=y+z or x=y*z etc.
+        res = str[0];   // result variable (before '=')
+        eq  = str[1];   // should be '='
+        op1 = str[2];   // first operand
+        op  = str[3];   // operator
+        op2 = str[4];   // second operand
+
+        if(op == '+') {
+            printf(" mov %c,R%d\n", op1, i-1);
+            printf(" add %c,R%d\n", op2, i-1);
+            printf(" mov R%d,%c\n\n", i-1, res);
+        }
+        else if(op == '-') {
+            printf(" mov %c,R%d\n", op1, i-1);
+            printf(" sub %c,R%d\n", op2, i-1);
+            printf(" mov R%d,%c\n\n", i-1, res);
+        }
+        else if(op == '*') {
+            printf(" mov %c,R%d\n", op1, i-1);
+            printf(" mul %c,R%d\n", op2, i-1);
+            printf(" mov R%d,%c\n\n", i-1, res);
+        }
+        else if(op == '/') {
+            printf(" mov %c,R%d\n", op1, i-1);
+            printf(" div %c,R%d\n", op2, i-1);
+            printf(" mov R%d,%c\n\n", i-1, res);
+        }
+    }
+
+    return 0;
+}
